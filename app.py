@@ -44,7 +44,7 @@ def send_mp3_to_api(file_path):
         files = {'file': (mp3_file.name, mp3_file, 'audio/mpeg')}
         
         try:
-            response = requests.post(API_URL, files=files, timeout=300)
+            response = requests.post(API_URL, files=files, timeout=600)  # Increased timeout
             if response.status_code == 200:
                 return response.json()
             else:
@@ -54,6 +54,7 @@ def send_mp3_to_api(file_path):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
 
 
 
