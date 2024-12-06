@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Match Results</title>
+</head>
+<body>
+    <h1>Song Match Results</h1>
+
+    {% if songs %}
+        <ul>
+        {% for song in songs %}
+            <li>
+                <a href="{{ song.link }}" target="_blank">{{ song.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No songs found. Please try uploading again.</p>
+    {% endif %}
+
+    <a href="/">Go back to upload another file</a>
+</body>
+</html>
