@@ -9,7 +9,7 @@ logging.basicConfig(filename='/tmp/app.log', level=logging.DEBUG)
 
 app = Flask(__name__)
 
-API_URL = "https://music-ir-backend.onrender.com/upload"
+API_URL = "https://bd00-171-243-48-55.ngrok-free.app/upload"
 
 # Use the '/tmp' directory for uploads on Vercel (temporary file storage)
 UPLOAD_FOLDER = '/tmp/uploads'
