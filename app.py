@@ -2,6 +2,11 @@ import os
 from flask import Flask, render_template, request, jsonify
 import requests
 
+import logging
+
+# Set up logging
+logging.basicConfig(filename='app.log', level=logging.DEBUG)
+
 app = Flask(__name__)
 
 API_URL = "https://music-ir-backend.onrender.com/upload"
@@ -39,6 +44,7 @@ def upload_file():
     else:
         return jsonify({"error": "Invalid file type. Only MP3 files are allowed."}), 400
 
+'''
 def send_mp3_to_api(file_path):
     with open(file_path, 'rb') as mp3_file:
         files = {'file': (mp3_file.name, mp3_file, 'audio/mpeg')}
@@ -54,7 +60,24 @@ def send_mp3_to_api(file_path):
                 return {"error": f"Failed with status code {response.status_code}: {response.text}"}
         except requests.exceptions.RequestException as e:
             return {"error": f"An error occurred: {str(e)}"}
+'''
 
+def send_mp3_to_api(file_path):
+    with open(file_path, 'rb') as mp3_file:
+        files = {'file': (mp3_file.name, mp3_file, 'audio/mpeg')}
+        
+        try:
+            response = requests.post(API_URL, files=files, timeout=600)  # Increased timeout
+            logging.debug(f"API Response Status Code: {response.status_code}")
+            logging.debug(f"API Response Body: {response.text}")
+            
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return {"error": f"Failed with status code {response.status_code}: {response.text}"}
+        except requests.exceptions.RequestException as e:
+            logging.error(f"An error occurred: {str(e)}")
+            return {"error": f"An error occurred: {str(e)}"}
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
