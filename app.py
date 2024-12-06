@@ -5,7 +5,7 @@ import requests
 import logging
 
 # Set up logging
-logging.basicConfig(filename='app.log', level=logging.DEBUG)
+logging.basicConfig(filename='/tmp/app.log', level=logging.DEBUG)
 
 app = Flask(__name__)
 
