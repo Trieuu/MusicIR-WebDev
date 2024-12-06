@@ -45,12 +45,16 @@ def send_mp3_to_api(file_path):
         
         try:
             response = requests.post(API_URL, files=files, timeout=600)  # Increased timeout
+            print(f"API Response Status Code: {response.status_code}")
+            print(f"API Response Body: {response.text}")
+            
             if response.status_code == 200:
                 return response.json()
             else:
                 return {"error": f"Failed with status code {response.status_code}: {response.text}"}
         except requests.exceptions.RequestException as e:
             return {"error": f"An error occurred: {str(e)}"}
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
