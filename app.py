@@ -4,8 +4,11 @@ import requests
 
 app = Flask(__name__)
 
-# API URL
 API_URL = "https://music-ir-backend.onrender.com/upload"
+
+# Make sure the 'uploads' directory exists
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/')
 def home():
@@ -13,26 +16,19 @@ def home():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    # Check if a file is in the request
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
-    
+
     file = request.files['file']
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
-    
+
     if file and file.filename.endswith('.mp3'):
-        # Save the file locally to the 'uploads' folder
-        file_path = os.path.join('/tmp', file.filename)
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
         file.save(file_path)
-
-        # Send the file to the external API
         response = send_mp3_to_api(file_path)
-
-        # Delete the file after sending it to the API (optional)
         os.remove(file_path)
-        
-        # Extract only the song name and link from the API response
+
         if 'item_sorted' in response:
             songs = [{"name": song["song_info"]["name"], "link": song["song_info"]["link"]} for song in response["item_sorted"]]
             return render_template('upload_result.html', songs=songs)
@@ -54,9 +50,8 @@ def send_mp3_to_api(file_path):
         except requests.exceptions.RequestException as e:
             return {"error": f"An error occurred: {str(e)}"}
 
-# Entry point for Vercel's serverless function
-def handler(request):
-    with app.test_request_context(request.path, method=request.method, data=request.data):
-        return app.full_dispatch_request()
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
 
 
