@@ -6,8 +6,10 @@ app = Flask(__name__)
 
 API_URL = "https://music-ir-backend.onrender.com/upload"
 
-# Make sure the 'uploads' directory exists
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
+# Use the '/tmp' directory for uploads on Vercel (temporary file storage)
+UPLOAD_FOLDER = '/tmp/uploads'
+
+# Ensure the upload folder exists in the temp directory
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/')
@@ -52,6 +54,7 @@ def send_mp3_to_api(file_path):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
 
 
 
