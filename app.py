@@ -22,14 +22,15 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     
-    if file and file.filename.endswith('.mp3'):
+    # Check for valid file extensions: .mp3 or .m4a
+    if file and (file.filename.endswith('.mp3') or file.filename.endswith('.m4a')):
         # Use tempfile to create a temporary file in the correct platform-independent location
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as temp_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[-1]) as temp_file:
             file_path = temp_file.name
             file.save(file_path)
 
         # Send the file to the external API
-        response = send_mp3_to_api(file_path)
+        response = send_audio_to_api(file_path)
 
         # Delete the file after sending it to the API (optional)
         os.remove(file_path)
@@ -41,11 +42,14 @@ def upload_file():
 
         return jsonify({"error": "No results found from the API"}), 400
     else:
-        return jsonify({"error": "Invalid file type. Only MP3 files are allowed."}), 400
+        return jsonify({"error": "Invalid file type. Only MP3 and M4A files are allowed."}), 400
 
-def send_mp3_to_api(file_path):
-    with open(file_path, 'rb') as mp3_file:
-        files = {'file': (mp3_file.name, mp3_file, 'audio/mpeg')}
+def send_audio_to_api(file_path):
+    # Determine the MIME type based on the file extension
+    mime_type = 'audio/mpeg' if file_path.endswith('.mp3') else 'audio/mp4'
+
+    with open(file_path, 'rb') as audio_file:
+        files = {'file': (audio_file.name, audio_file, mime_type)}
         
         try:
             response = requests.post(API_URL, files=files, timeout=300)
