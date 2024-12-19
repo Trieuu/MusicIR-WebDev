@@ -4,22 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Song Match Results</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                to bottom,
+                #00667B 0%,
+                #00474E 35%,
+                #002F38 65%,
+                #121212 100%
+            );
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            padding-top: 80px; /* Adjust for fixed header */
+        }
+
+        /* Fixed Navigation Bar */
+        .fixed-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1.2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .fixed-bar h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        .bar-link {
+            color: white; /* Text color */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        .bar-link:hover {
+            color: #666666; /* Highlight color on hover */
+        }
+
+        /* Results Section */
+        .results-container {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .results-container h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Best Match Styling */
+        .best-match {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4));
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .best-match h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .best-match a {
+            color: #00ff88;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        /* Other Results */
+        .other-results h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+
+        .result-item a {
+            color: #ffffff;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+        /* Music Note Icon Styling */
+        .music-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* YouTube Icon */
+        .youtube-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Song Match Results</h1>
+    <!-- Fixed Navigation Bar -->
+    <header class="fixed-bar">
+        <h3>
+            <a href="/" class="bar-link">✨ Song Search Engine ✨</a>
+        </h3>
+    </header>
 
-    {% if songs %}
-        <ul>
-        {% for song in songs %}
-            <li>
-                <a href="{{ song.link }}" target="_blank">{{ song.name }}</a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No songs found. Please try uploading again.</p>
-    {% endif %}
+    <!-- Results Container -->
+    <div class="results-container">
+        <h1>Your Results</h1>
 
-    <a href="/">Go back to upload another file</a>
+        {% if songs %}
+            <!-- Best Match Section -->
+            <div class="best-match">
+                <h2>Best Match</h2>
+                <div class="result-item">
+                    <a href="{{ songs[0].link }}" target="_blank">
+                        <img src="{{ url_for('static', filename='music.png') }}" alt="Music Icon" class="music-icon">
+                        {{ songs[0].name }}
+                    </a>
+                    <a href="{{ songs[0].link }}" target="_blank">
+                        <img src="{{ url_for('static', filename='youtube.png') }}" alt="YouTube Icon" class="youtube-icon">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Other Results -->
+            <div class="other-results">
+                <h2>Other Results</h2>
+                {% for song in songs[1:] %}
+                    <div class="result-item">
+                        <a href="{{ song.link }}" target="_blank">
+                            <img src="{{ url_for('static', filename='music.png') }}" alt="Music Icon" class="music-icon">
+                            {{ song.name }}
+                        </a>
+                        <a href="{{ songs[0].link }}" target="_blank">
+                            <img src="{{ url_for('static', filename='youtube.png') }}" alt="YouTube Icon" class="youtube-icon">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No songs found. Please try uploading again.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

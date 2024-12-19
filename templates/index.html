@@ -3,14 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music IR</title>
+    <title>Song Search Engine</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .fixed-bar {
+            position: fixed; /* Stays fixed on top */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width */
+            background-color: rgba(0, 0, 0, 0.4); /* Dark background with transparency */
+            color: white;
+            text-align: center;
+            padding: 10px 0; /* Padding above and below the text */
+            font-family: Arial, sans-serif;
+            z-index: 1000; /* Ensures it appears above other content */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .fixed-bar h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        .bar-link {
+            color: white; /* Text color */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        .bar-link:hover {
+            color: #666666; /* Highlight color on hover */
+        }
+        /* Fullscreen Background Image Section */
+        .intro-section {
+            height: 100vh;
+            background: url("{{ url_for('static', filename='theme.png') }}") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Black with 40% transparency */
+            z-index: 1; /* Ensure it's below content but above the background */
+        }
+
+        .intro-section h1,
+        .intro-section p,
+        .intro-section .button-group {
+            position: relative; /* Places content above the overlay */
+            z-index: 2;
+        }
+
+        .intro-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .intro-section p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button-group button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        /* Second Section with Gradient Background */
+        .gradient-section {
+            background: linear-gradient(
+                to bottom,
+                #00667B 0%,
+                #00474E 35%,
+                #002F38 65%,
+                #121212 100%
+            );
+            padding: 50px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container with Transparent Background */
+        .content-container {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 100%
+            );
+            padding: 60px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            color: #ffffff;
+            border: 2px solid white;
+        }
+
+        .content-container h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .content-container p {
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .content-container upload-section {
+            margin-top: 20px;
+            padding: 15px;
+        }
+
+        .content-container input[type="file"], button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .content-container button {
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .content-container button:hover {
+            background-color: #286090;
+        }
+        /* Loading Animation */
+        .loader {
+            display: none; /* Initially hidden */
+            margin: 20px auto;
+            border: 8px solid #f3f3f3; /* Light gray */
+            border-top: 8px solid #333333; /* Green */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+    <!-- JavaScript -->
+    <script>
+        function showNotification() {
+            alert("This feature is under development and will be available soon!");
+        }
+
+        function showLoader(event) {
+            event.preventDefault(); // Prevent immediate form submission
+            const loader = document.getElementById("loader");
+            loader.style.display = "block"; // Show the loader
+
+            // Submit the form after a short delay to ensure the loader shows
+            setTimeout(() => {
+                event.target.submit();
+            }, 500); // Delay of 500ms
+        }
+    </script>
 </head>
 <body>
-    <h1>Welcome to the Music IR App!</h1>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <label for="file">Upload MP3:</label>
-        <input type="file" name="file" id="file" accept="audio/mp3" required>
-        <button type="submit">Upload</button>
-    </form>
+     <!-- Fixed Navigation Bar -->
+    <header class="fixed-bar">
+        <div class="nav-container">
+            <h3>
+                <a href="/" class="bar-link">✨ Song Search Engine ✨</a>
+                <!--a href="#about" class="bar-link" style="margin-left: 20px;">About</a>
+                <a href="#contact" class="bar-link" style="margin-left: 20px;">Contact</a-->
+            </h3>
+        </div>
+    </header>
+
+    <!-- Introduction Section -->
+    <section class="intro-section">
+        <h1>SONG SEARCH ENGINE APCS</h1>
+        <p>We provide access to a library of over 1,000 songs on YouTube.<br>
+           Easily search using audio files, song names, or even lyrics.</p>
+        <div class="button-group">
+            <button onclick="location.href='#identify-section'">Audio Files</button>
+            <button onclick="showNotification()">Songs Name</button>
+        </div>
+    </section>
+
+    <!-- Gradient Section with Transparent Container -->
+    <section id="identify-section" class="gradient-section">
+        <div class="content-container">
+            <h2>Identify Songs in Files</h2>
+            <p>Only audio files (e.g., mp3, wav, m4a) are supported.<br>Maximum file size: 20MB.</p>
+            <div class="upload-section">
+                <form action="/upload" method="POST" enctype="multipart/form-data" onsubmit="showLoader(event)">
+                    <input type="file" name="file" id="file" accept="audio/mp3" required><br>
+                    <button type="submit"> Upload</button>
+                    <div class="loader" id="loader"></div>
+                </form>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
