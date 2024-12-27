@@ -16,10 +16,8 @@
             font-family: Arial, sans-serif;
             background: linear-gradient(
                 to bottom,
-                #00667B 0%,
-                #00474E 35%,
-                #002F38 65%,
-                #121212 100%
+                #00474E 0%,
+                #002F38 50%
             );
             color: white;
             text-align: center;
@@ -40,6 +38,14 @@
             font-size: 1.2rem;
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .fixed-bar .logo {
+            height: 30px; /* Set the logo size */
+            margin-right: 10px; /* Space between logo and text */
+            vertical-align: middle; /* Ensures proper alignment with text */
         }
 
         .fixed-bar h3 {
@@ -137,7 +143,8 @@
     <!-- Fixed Navigation Bar -->
     <header class="fixed-bar">
         <h3>
-            <a href="/" class="bar-link">✨ Song Search Engine ✨</a>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <a href="/" class="bar-link">Song Search Engine</a>
         </h3>
     </header>
 

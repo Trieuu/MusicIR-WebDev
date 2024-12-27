@@ -19,22 +19,49 @@
             color: white;
         }
         .fixed-bar {
-            position: fixed; /* Stays fixed on top */
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%; /* Full width */
-            background-color: rgba(0, 0, 0, 0.4); /* Dark background with transparency */
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
             color: white;
-            text-align: center;
-            padding: 10px 0; /* Padding above and below the text */
+            padding: 10px 20px;
             font-family: Arial, sans-serif;
-            z-index: 1000; /* Ensures it appears above other content */
+            z-index: 1000;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between; /* Splits left and right sections */
+            align-items: center;
         }
 
-        .fixed-bar h3 {
+        .fixed-bar .left-section {
+            display: flex;
+            align-items: center;
+            margin-left: 40px;
+        }
+
+        .fixed-bar .left-section img {
+            height: 40px;
+            margin-right: 20px;
+        }
+
+        .fixed-bar .left-section h3 {
             margin: 0;
             font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        .fixed-bar .right-section {
+            display: flex;
+            align-items: center;
+            margin-right: 40px;
+        }
+
+        .fixed-bar .right-section h4 {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
             font-weight: normal;
         }
 
@@ -50,14 +77,19 @@
         /* Fullscreen Background Image Section */
         .intro-section {
             height: 100vh;
-            background: url("{{ url_for('static', filename='theme.png') }}") no-repeat center center fixed;
+            background: url("{{ url_for('static', filename='bg2.png') }}") no-repeat center center fixed;
             background-size: cover;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
+            justify-content: flex-start;
+            padding: 20px 5%;
+            position: relative;
+        }
+
+        .intro-section .content {
+            z-index: 2;
+            max-width: 40%;
+            text-align: left;
         }
 
         .intro-section::before {
@@ -68,7 +100,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.4); /* Black with 40% transparency */
-            z-index: 1; /* Ensure it's below content but above the background */
+            z-index: 1;
         }
 
         .intro-section h1,
@@ -82,12 +114,25 @@
             font-size: 3rem;
             font-weight: bold;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            margin-bottom: 60px;
+        }
+
+        h1 .line-1 {
+            color: #FFFFFF; /* White for the first line */
+            margin-bottom: 20px; /* Adds space below the first line */
+            display: inline-block; /* Ensures margin-bottom works */
+        }
+
+        h1 .line-2 {
+            color: #FFFFFF; /* Gold for the second line, change if necessary */
         }
 
         .intro-section p {
-            font-size: 1.2rem;
+            font-size: 1rem;
+            font-weight: lighter;
             margin-top: 10px;
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
         }
 
         .button-group {
@@ -114,54 +159,53 @@
         /* Second Section with Gradient Background */
         .gradient-section {
             background: linear-gradient(
-                to bottom,
-                #00667B 0%,
-                #00474E 35%,
-                #002F38 65%,
-                #121212 100%
+                45deg,
+                #266941 0%,
+                #004D40 35%,
+                #00251A 65%
             );
             padding: 50px 10%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            justify-content: center;
+            gap: 200px;
+            min-height: 160vh;
         }
 
-        /* Container with Transparent Background */
         .content-container {
+            /*
             background: linear-gradient(
                 to bottom,
                 rgba(255, 255, 255, 0) 0%,
                 rgba(255, 255, 255, 0.4) 100%
-            );
+            );*/
+            background: #1E1E1E;
             padding: 60px;
-            border-radius: 12px;
+            border-radius: 36px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             text-align: center;
-            max-width: 800px;
+            max-width: 600px;
             color: #ffffff;
             border: 2px solid white;
         }
-
         .content-container h2 {
             font-size: 2rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: #ffffff;
         }
 
-        .content-container p {
+        .content-container p, ul {
             font-size: 1rem;
-            margin-top: 20px;
+            line-height: 1.6;
+            color: white;
+            text-align: left;
         }
 
-        .content-container upload-section {
-            margin-top: 20px;
-            padding: 15px;
-        }
-
-        .content-container input[type="file"], button {
-            margin-top: 15px;
-            padding: 12px 20px;
+        .content-container input[type="text"], input[type="file"] {
+            width: 90%;
+            padding: 10px;
+            margin: 15px 0;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -169,18 +213,20 @@
         }
 
         .content-container button {
-            background-color: #337ab7;
+            background-color: #266941;
             color: white;
-            border: none;
             padding: 10px 20px;
-            font-size: 1rem;
             border-radius: 5px;
             cursor: pointer;
+            border: none;
+            font-size: 1rem;
         }
 
         .content-container button:hover {
-            background-color: #286090;
+            background-color: #004D40;
         }
+
+
         /* Loading Animation */
         .loader {
             display: none; /* Initially hidden */
@@ -191,6 +237,77 @@
             width: 50px;
             height: 50px;
             animation: spin 1s linear infinite;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1001; /* Above all other content */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .modal-content p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .modal-content a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .modal-content a:hover {
+            text-decoration: underline;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         @keyframes spin {
@@ -215,49 +332,88 @@
                 event.target.submit();
             }, 500); // Delay of 500ms
         }
+        function openModal() {
+            document.getElementById("contact-modal").style.display = "flex";
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById("contact-modal").style.display = "none";
+        }
     </script>
 </head>
 <body>
      <!-- Fixed Navigation Bar -->
     <header class="fixed-bar">
-        <div class="nav-container">
+        <div class="left-section">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
             <h3>
-                <a href="/" class="bar-link">✨ Song Search Engine ✨</a>
-                <!--a href="#about" class="bar-link" style="margin-left: 20px;">About</a>
-                <a href="#contact" class="bar-link" style="margin-left: 20px;">Contact</a-->
+                <a href="/" class="bar-link">Song Search Engine</a>
             </h3>
         </div>
+        <div class="right-section">
+            <h4>
+                <a href="javascript:void(0)" class="bar-link" onclick="openModal()">Contact</a>
+            </h4>
+        </div>
     </header>
-
     <!-- Introduction Section -->
     <section class="intro-section">
-        <h1>SONG SEARCH ENGINE APCS</h1>
-        <p>We provide access to a library of over 1,000 songs on YouTube.<br>
-           Easily search using audio files, song names, or even lyrics.</p>
-        <div class="button-group">
-            <button onclick="location.href='#identify-section'">Audio Files</button>
-            <button onclick="showNotification()">Songs Name</button>
+        <div class="content">
+            <h1>
+                <span class="line-1">FIND YOUR RHYTHM</span><br>
+                <span class="line-2">WITH JUST A SOUND</span>
+            </h1>
+            <p style="line-height: 1.8;">
+               Welcome to our Song Search Engine, a project by APCS students.<br>
+               We provide access to a library of over 1,000 songs on YouTube.<br>
+               Easily search using audio files, song names, or even lyrics.
+            </p>
+            <div class="button-group">
+                <button onclick="location.href='#identify-container'">Audio Files</button>
+                <button onclick="location.href='#search-container'">Songs Name</button>
+            </div>
         </div>
     </section>
 
     <!-- Gradient Section with Transparent Container -->
-    <section id="identify-section" class="gradient-section">
+    <section id="identify-container" class="gradient-section">
+        <!-- First Content: Identify Songs in Files -->
         <div class="content-container">
             <h2>Identify Songs in Files</h2>
             <ul style="list-style-type: disc; margin-left: 20px; font-size: 1.0rem; line-height: 1.8; color: white; text-align: start;">
-                <li>Only audio files (<strong style="color: #33A8D5;">mp3, wav, m4a</strong>, ...) are supported.</li>
-                <li>Maximum file size: <strong style="color: #33A8D5;">20MB</strong>.</li>
-                <li>We only try recognite audio files under <strong style="color: #33A8D5;">60 seconds</strong>.</li>
-                <li>It’s <strong style="color: #33A8D5;">100% free</strong>.</li>
+                <li>Only audio files (<strong style="color: #44AE62;">mp3, wav, m4a</strong>, ...) are supported.</li>
+                <li>Maximum file size: <strong style="color: #44AE62;">20MB</strong>.</li>
+                <li>We only try to recognize audio files under <strong style="color: #44AE62;">60 seconds</strong>.</li>
+                <li>It’s <strong style="color: #44AE62;">100% free</strong>.</li>
             </ul>
             <div class="upload-section">
                 <form action="/upload" method="POST" enctype="multipart/form-data" onsubmit="showLoader(event)">
                     <input type="file" name="file" id="file" accept="audio/mp3" required><br>
-                    <button type="submit"> Upload</button>
+                    <button type="submit">Upload</button>
                     <div class="loader" id="loader"></div>
                 </form>
             </div>
         </div>
+
+        <!-- Second Content: Search by Song Name, Lyric -->
+        <div id="search-container" class="content-container">
+            <h2>Search by Song Name, Lyric</h2>
+            <p style="margin-bottom: 15px; color: #ffffff;">This feature will be developed in future versions.</p>
+            <form action="/search" method="GET" class="search-form">
+                <input type="text" name="query" placeholder="Enter song name or lyrics..." class="search-bar" required>
+            </form>
+        </div>
     </section>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">×</span>
+            <h2>Contact Us</h2>
+            <p>You can reach out to us via email at <a href="mailto:support@songsearch.com">support@songsearch.com</a>.</p>
+            <p>Or call us at: +123-456-7890</p>
+        </div>
+    </div>
 </body>
 </html>
