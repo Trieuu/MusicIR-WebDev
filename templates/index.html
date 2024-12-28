@@ -294,20 +294,40 @@
             color: #000;
         }
 
-        .search-form {
+        .search-bar-container {
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin-top: 20px;
+            justify-content: center;
+            gap: 10px;
         }
 
         .search-bar {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
+            flex: 1;
+            padding: 10px;
             font-size: 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-button {
+            background-color: #266941;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .search-button:hover {
+            background-color: #004D40;
+        }
+
+        .search-button i {
+            font-size: 1.2rem;
         }
 
         @keyframes spin {
@@ -341,6 +361,9 @@
             document.getElementById("contact-modal").style.display = "none";
         }
     </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
      <!-- Fixed Navigation Bar -->
@@ -399,9 +422,14 @@
         <!-- Second Content: Search by Song Name, Lyric -->
         <div id="search-container" class="content-container">
             <h2>Search by Song Name, Lyric</h2>
-            <p style="margin-bottom: 15px; color: #ffffff;">This feature will be developed in future versions.</p>
+            <p style="margin-bottom: 15px; color: #ffffff;">Search for songs by <strong style="color: #44AE62;">partial lyrics</strong> or <strong style="color: #44AE62;">song's name</strong>.</p>
             <form action="/search" method="GET" class="search-form">
-                <input type="text" name="query" placeholder="Enter song name or lyrics..." class="search-bar" required>
+                <div class="search-bar-container">
+                    <input type="text" name="query" placeholder="Enter song name or lyric..." class="search-bar" required>
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
             </form>
         </div>
     </section>
