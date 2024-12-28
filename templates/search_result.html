@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <ul>
+        {% for song in songs %}
+        <li>
+            <strong>{{ song.name }}</strong> - <a href="{{ song.link }}" target="_blank">Listen</a>
+            <p>Score: {{ song.score }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
